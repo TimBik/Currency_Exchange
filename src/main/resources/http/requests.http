@@ -1,0 +1,15 @@
+POST http://localhost:8080/signInRestApi
+Content-Type: application/json
+
+{
+  "email" : "timurbikmullin@mail.ru",
+  "password": "123"
+}
+
+###
+
+
+GET http://localhost:8080/usersRestApi
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwibG9naW4iOiJUaW0iLCJyb2xlIjoiVVNFUiJ9.OTZbPOLQqR9UEnjVb5YG2kwoShJ9B0Clx8cNDK1eK1s
+
+###

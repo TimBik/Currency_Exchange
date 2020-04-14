@@ -1,0 +1,73 @@
+.rating {
+    position: relative;
+    width: 250px;
+    height: 50px;
+    margin: 10px 0;
+    list-style: none;
+    background: url(../img/stars.png);
+}
+
+.rating li{
+    float: left;
+    height: 50px;
+}
+
+.rating li.current{
+    z-index: 1;
+    background: url(../img/stars.png) left bottom;
+}
+
+.rating li span[class*="star"]{
+    position: absolute;
+    z-index: 5;
+    display: block;
+    width: 52px;
+    height: 50px;
+    cursor: pointer;
+}
+
+.rating li span[class*="star"]:hover{
+    left: 0;
+    z-index: 2;
+    background: url(../img/stars.png) left bottom;
+}
+
+.rating li span.star1 {
+    left: 0;
+}
+
+.rating li span.star1:hover {
+    width: 50px;
+}
+
+.rating li span.star2 {
+    left: 50px;
+}
+
+.rating li span.star2:hover {
+    width: 100px;
+}
+
+.rating li span.star3 {
+    left: 100px;
+}
+
+.rating li span.star3:hover {
+    width: 150px;
+}
+
+.rating li span.star4 {
+    left: 150px;
+}
+
+.rating li span.star4:hover {
+    width: 200px;
+}
+
+.rating li span.star5 {
+    left: 200px;
+}
+
+.rating li span.star5:hover {
+    width: 250px;
+}
