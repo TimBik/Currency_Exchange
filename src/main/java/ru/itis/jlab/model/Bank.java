@@ -12,10 +12,11 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 @Entity
+@Table(name = "bank")
 public class Bank {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    long id;
+    Long id;
 
     String name;
 

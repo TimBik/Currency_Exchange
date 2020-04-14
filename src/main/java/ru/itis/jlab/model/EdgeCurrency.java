@@ -10,19 +10,23 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Builder
 @Entity
+@Table(name = "")
 public class EdgeCurrency {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     @ManyToOne
     @JoinColumn(name = "bank_id")
     private Bank bank;
+
     @ManyToOne
     @JoinColumn(name = "currency_from_id")
     private Currency CurrencyFrom;
+
     @ManyToOne
     @JoinColumn(name = "currency_to_id")
     private Currency CurrencyTo;
+
     private String urlFromData;
     private String parsingXPath;
 
