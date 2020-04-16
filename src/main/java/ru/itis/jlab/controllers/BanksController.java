@@ -11,6 +11,7 @@ import ru.itis.jlab.model.Bank;
 import ru.itis.jlab.services.modelServices.BankService;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Controller
 public class BanksController {
@@ -23,6 +24,7 @@ public class BanksController {
     public ModelAndView showBank(@PathVariable("bank-name") String bankName) {
         ModelAndView modelAndView = new ModelAndView("bank");
         Optional<Bank> bank = bankService.findByName(bankName);
+        modelAndView.addObject("pageId", UUID.randomUUID().toString());
         if (bank.isPresent()) {
             modelAndView.addObject("bank", bank.get());
         } else {

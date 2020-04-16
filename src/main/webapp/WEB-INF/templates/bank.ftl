@@ -8,7 +8,51 @@
     <@headWelcome.head value="${bank.name}"/>
 </#if>
 <#if status??><@headWelcome.head value="${status}"/></#if>
-<body>
+
+<script>
+    function sendMessage(pageId, text, bankName) {
+        let body = {
+            bankName: bankName,
+            pageId: pageId,
+            text: text
+        };
+
+        $.ajax({
+            url: "/messages",
+            method: "POST",
+            data: JSON.stringify(body),
+            contentType: "application/json",
+            dataType: "json",
+            complete: function () {
+                if (text === 'Login') {
+                    receiveMessage(pageId, bankName)
+                }
+            }
+        });
+    }
+
+    // LONG POLLING
+    function receiveMessage(pageId, bankName) {
+        let body2 = {
+            bankName: bankName,
+            pageId: pageId
+        };
+        $.ajax({
+            url: "/messagesShow",
+            method: "POST",
+            data: JSON.stringify(body2),
+            contentType: "application/json",
+            dataType: "json",
+            success: function (response) {
+                $('#messages').first().after('<li>' + response[0]['text'] + '</li>');
+                receiveMessage(pageId, bankName);
+            }
+        })
+    }
+</script>
+
+
+<body onload="sendMessage('${pageId}', 'Login','${bank.name}')">
 <!--шапка-->
 <@slideHeadMain.slideHead/>
 
@@ -63,6 +107,22 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+
+
+    <div>
+        <div>
+            <input id="message" placeholder="Ваше сообщение">
+            <button onclick="sendMessage('${pageId}',
+                    $('#message').val() ,
+                    '${bank.name}')">Отправить
+            </button>
+        </div>
+        <div>
+            <ul id="messages">
+
+            </ul>
         </div>
     </div>
 </#if>
