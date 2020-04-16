@@ -17,7 +17,8 @@ import java.util.Optional;
 
 @Controller
 public class FinderController {
-    @PreAuthorize("permitAll()")
+
+    @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/finder", method = RequestMethod.GET)
     public ModelAndView finder() {
         ModelAndView modelAndView = new ModelAndView("finder");
@@ -30,7 +31,8 @@ public class FinderController {
     @Autowired
     PathCurrencyExchangeService pathCurrencyExchangeService;
 
-    @PreAuthorize("permitAll()")
+    //    @PreAuthorize("permitAll()")
+    @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/finder", method = RequestMethod.POST)
     public ModelAndView finder(@ModelAttribute(name = "currencyFrom") String currencyFrom,
                                @ModelAttribute(name = "currencyTo") String currencyTo) {

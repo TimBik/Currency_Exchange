@@ -37,9 +37,10 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
                 .userId(Long.parseLong(claims.get("sub", String.class)))
                 .role(claims.get("role", String.class))
                 .login(claims.get("login", String.class))
+                .state(claims.get("state", String.class))
                 .build();
-        // аутентификация прошла успешно
-        authentication.setAuthenticated(true);
+//        // аутентификация прошла успешно
+//        authentication.setAuthenticated(true);
         // положили в эту аутентификацию пользователя
         ((JwtAuthentication) authentication).setUserDetails(userDetails);
         return authentication;

@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import ru.itis.jlab.model.Bank;
 import ru.itis.jlab.model.Currency;
 import ru.itis.jlab.model.EdgeCurrency;
 import ru.itis.jlab.services.matrix.BestEdgeCurrenciesService;
@@ -57,7 +58,8 @@ public class MatrixConfig {
         return EdgeCurrency.builder()
                 .CurrencyFrom(currency1)
                 .CurrencyTo(currency2)
-                .costByOne(-1)
+                .logCostByOne(Double.MIN_VALUE)
+                .costByOne(-1.)
                 .build();
     }
 
@@ -65,7 +67,9 @@ public class MatrixConfig {
         return EdgeCurrency.builder()
                 .CurrencyFrom(currency1)
                 .CurrencyTo(currency2)
-                .costByOne(1)
+                .logCostByOne(0.)
+                .costByOne(1.)
+                .bank(Bank.builder().name("any bank").build())
                 .build();
     }
 

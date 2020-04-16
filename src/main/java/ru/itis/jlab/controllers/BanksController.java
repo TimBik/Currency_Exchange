@@ -18,7 +18,7 @@ public class BanksController {
     @Autowired
     BankService bankService;
 
-    @PreAuthorize("permitAll()")
+    @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "banks/{bank-name}", method = RequestMethod.GET)
     public ModelAndView showBank(@PathVariable("bank-name") String bankName) {
         ModelAndView modelAndView = new ModelAndView("bank");

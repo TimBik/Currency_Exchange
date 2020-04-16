@@ -15,7 +15,7 @@ import java.util.Optional;
 public class MatrixServiceImpl implements MatrixService {
 
     @Autowired
-    @Qualifier("minCostAndPathTables")
+    @Qualifier("minLogCostAndPathTables")
     Pair<Map<Pair<Currency, Currency>, EdgeCurrency>, Map<Pair<Currency, Currency>, Currency>> minCostAndPathTables;
 
     @Autowired
@@ -23,7 +23,7 @@ public class MatrixServiceImpl implements MatrixService {
     Map<Pair<Currency, Currency>, EdgeCurrency> bestCurrencyTable;
 
     @Autowired
-    MinCostAndPathTablesService minCostAndPathTablesService;
+    MinLogCostAndPathTablesService minCostAndPathTablesService;
 
     @Autowired
     CurrencyService currencyService;
@@ -35,7 +35,7 @@ public class MatrixServiceImpl implements MatrixService {
         if (currencyFrom.isPresent() && currencyTo.isPresent()) {
             Pair<Currency, Currency> key = new Pair(currencyFrom.get(), currencyTo.get());
             EdgeCurrency edgeCurrency1 = bestCurrencyTable.get(key);
-            if (newCost < edgeCurrency1.getCostByOne()) {
+            if (edgeCurrency1 ==null || newCost < edgeCurrency1.getLogCostByOne()) {
                 bestCurrencyTable.put(key, edgeCurrency);
 
                 //работает за O(n^2), где n - кол-во валют

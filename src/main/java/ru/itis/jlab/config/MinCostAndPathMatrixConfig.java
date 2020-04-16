@@ -10,7 +10,7 @@ import org.springframework.context.annotation.PropertySource;
 import ru.itis.jlab.model.Currency;
 import ru.itis.jlab.model.EdgeCurrency;
 import ru.itis.jlab.repositories.CurrencyRepository;
-import ru.itis.jlab.services.matrix.MinCostAndPathTablesService;
+import ru.itis.jlab.services.matrix.MinLogCostAndPathTablesService;
 
 import java.util.HashMap;
 import java.util.List;
@@ -29,10 +29,10 @@ public class MinCostAndPathMatrixConfig {
     CurrencyRepository currencyRepository;
 
     @Autowired
-    MinCostAndPathTablesService minCostAndPathTablesService;
+    MinLogCostAndPathTablesService minLogCostAndPathTablesService;
 
 
-    @Bean(name = "minCostAndPathTables")
+    @Bean(name = "minLogCostAndPathTables")
     public Pair
             <Map<Pair<Currency, Currency>, EdgeCurrency>,
                     Map<Pair<Currency, Currency>, Currency>>
@@ -45,7 +45,7 @@ public class MinCostAndPathMatrixConfig {
         }
         List<Currency> currencyList = currencyRepository.findAll();
         for (Currency currency : currencyList) {
-            minCostAndPathTablesService.updateMinCostAndPathTablesWithUsedK(currency, minCostTable, pathMinCostTable);
+            minLogCostAndPathTablesService.updateMinCostAndPathTablesWithUsedK(currency, minCostTable, pathMinCostTable);
         }
         return new Pair<>(minCostTable, pathMinCostTable);
     }

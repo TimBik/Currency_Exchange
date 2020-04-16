@@ -6,7 +6,7 @@ import ru.itis.jlab.model.EdgeCurrency;
 
 import java.util.Map;
 
-public interface MinCostAndPathTablesService {
+public interface MinLogCostAndPathTablesService {
     void updateMinCostAndPathTablesWithUsedK(Currency currency,
                                              Map<Pair<Currency, Currency>, EdgeCurrency> minCostTable,
                                              Map<Pair<Currency, Currency>, Currency> pathMinCostTable);

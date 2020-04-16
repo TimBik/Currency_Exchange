@@ -41,6 +41,7 @@ public class SignInServiceImpl implements SignInService {
                         .setSubject(user.getId().toString()) // id пользователя
                         .claim("login", user.getLogin()) // имя
                         .claim("role", user.getRole().name()) // роль
+                        .claim("state", user.getState().name())
                         .signWith(SignatureAlgorithm.HS256, secret) // подписываем его с нашим secret
                         .compact(); // преобразовали в строку
                 return new TokenDto(token);

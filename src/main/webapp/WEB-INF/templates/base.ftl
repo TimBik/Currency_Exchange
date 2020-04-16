@@ -36,7 +36,7 @@
         <a href="/main" class="nav-link">Главная</a>
     </li>
     <li class="navbar-item active">
-        <a href="/profile" class="nav-link">Профиль</a>
+        <a href="/finder" class="nav-link">Обмен валют</a>
     </li>
     <li class="navbar-item">
         <a href="/favourite" class="nav-link">Избранное</a>

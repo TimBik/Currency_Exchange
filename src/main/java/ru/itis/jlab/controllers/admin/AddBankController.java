@@ -10,6 +10,8 @@ import org.springframework.web.servlet.ModelAndView;
 import ru.itis.jlab.model.Bank;
 import ru.itis.jlab.services.modelServices.BankService;
 
+import java.util.Optional;
+
 @Controller
 public class AddBankController {
     @PreAuthorize("hasAuthority('ADMIN')")
@@ -24,10 +26,14 @@ public class AddBankController {
     @PreAuthorize("hasAuthority('ADMIN')")
     @RequestMapping(value = "/admin/addBank", method = RequestMethod.POST)
     public ModelAndView saveBank(@ModelAttribute(value = "nameBank") String bankName) {
-        //TO DO заменить на нормально создание объекта через spring
-        bankService.save(Bank.builder().name(bankName).build());
         ModelAndView modelAndView = new ModelAndView("addBank");
-        modelAndView.addObject("status", "добавление банка прошло успешно");
+        Optional<Bank> bank = bankService.findByName(bankName);
+        if(!bank.isPresent()) {
+            bankService.save(Bank.builder().name(bankName).build());
+            modelAndView.addObject("status", "добавление банка прошло успешно");
+        }else {
+            modelAndView.addObject("status", "Добавление банка провалилось. Такой банк уже существует");
+        }
         return modelAndView;
     }
 }

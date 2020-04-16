@@ -16,7 +16,7 @@ public class SignUpController {
     @Autowired
     private SignUpService signUpService;
 
-    @PreAuthorize("!isAuthenticated()")
+//    @PreAuthorize("!isAuthenticated()")
     @RequestMapping(value = "/signUp", method = RequestMethod.GET)
     public ModelAndView signUp(Authentication authentication) {
         ModelAndView modelAndView = new ModelAndView();
@@ -28,7 +28,7 @@ public class SignUpController {
         return modelAndView;
     }
 
-    @PreAuthorize("!isAuthenticated()")
+//    @PreAuthorize("!isAuthenticated()")
     @RequestMapping(value = "/signUp", method = RequestMethod.POST)
     public ModelAndView signUp(@ModelAttribute(name = "userObj") SignUpDto signUpData) {
         signUpService.loadUserFromParameters(signUpData);

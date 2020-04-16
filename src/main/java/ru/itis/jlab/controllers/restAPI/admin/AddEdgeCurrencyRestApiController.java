@@ -1,11 +1,9 @@
-package ru.itis.jlab.controllers.admin;
+package ru.itis.jlab.controllers.restAPI.admin;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import ru.itis.jlab.dto.EdgeCurrencyWithNamesDto;
 import ru.itis.jlab.model.Bank;
@@ -17,14 +15,8 @@ import ru.itis.jlab.services.modelServices.EdgeCurrencyService;
 
 import java.util.Optional;
 
-@Controller
-public class AddEdgeCurrencyController {
-    @PreAuthorize("hasAuthority('ADMIN')")
-    @RequestMapping(value = "/admin/addEdgeCurrency", method = RequestMethod.GET)
-    public ModelAndView addEdgeCurrently() {
-        ModelAndView modelAndView = new ModelAndView("addEdgeCurrency");
-        return modelAndView;
-    }
+@RestController
+public class AddEdgeCurrencyRestApiController {
 
     @Autowired
     EdgeCurrencyService edgeCurrencyService;
@@ -36,8 +28,8 @@ public class AddEdgeCurrencyController {
     CurrencyService currencyService;
 
     @PreAuthorize("hasAuthority('ADMIN')")
-    @RequestMapping(value = "/admin/addEdgeCurrency", method = RequestMethod.POST)
-    public ModelAndView saveBank(@ModelAttribute("currencyForm") EdgeCurrencyWithNamesDto edgeCurrencyWithNamesDto) {
+    @RequestMapping(value = "/admin/addEdgeCurrencyRestApi")
+    public ResponseEntity<String> saveEdgeCurrencyRestApi(@RequestBody() EdgeCurrencyWithNamesDto edgeCurrencyWithNamesDto) {
         //TO DO заменить на нормально создание объекта через spring
         // просто перетащи в конструктор EdgeCurrencyWithNameDto(EdgeCurrency)
         String nameCurrencyFrom = edgeCurrencyWithNamesDto.getNameCurrencyFrom();
@@ -49,8 +41,7 @@ public class AddEdgeCurrencyController {
         String nameBank = edgeCurrencyWithNamesDto.getBankName();
         Optional<Bank> optionalBank = bankService.findByName(nameBank);
 
-        ModelAndView modelAndView = new ModelAndView("addEdgeCurrency");
-
+        String status;
         if (optionalBank.isPresent() && currencyFrom.isPresent() && currencyTo.isPresent()) {
             edgeCurrencyService.save(EdgeCurrency.builder()
                     .CurrencyFrom(currencyFrom.get())
@@ -58,12 +49,12 @@ public class AddEdgeCurrencyController {
                     .bank(optionalBank.get())
                     .urlFromData(edgeCurrencyWithNamesDto.getUrlFromData())
                     .parsingXPath(edgeCurrencyWithNamesDto.getParsingXPath())
-                    .reverse(edgeCurrencyWithNamesDto.getReverse()!=null)
+                    .reverse(edgeCurrencyWithNamesDto.getReverse() != null)
                     .build());
-            modelAndView.addObject("status", "добавление ребра валют прошло успешно");
+            status = "добавление ребра валют прошло успешно";
         } else {
-            modelAndView.addObject("status", "добавление ребра валют невозможно. Проверьте введенные данные");
+            status = "добавление ребра валют невозможно. Проверьте введенные данные";
         }
-        return modelAndView;
+        return ResponseEntity.ok(status);
     }
 }

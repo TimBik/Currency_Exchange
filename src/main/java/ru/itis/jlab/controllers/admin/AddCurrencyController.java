@@ -10,6 +10,8 @@ import org.springframework.web.servlet.ModelAndView;
 import ru.itis.jlab.model.Currency;
 import ru.itis.jlab.services.modelServices.CurrencyService;
 
+import java.util.Optional;
+
 @Controller
 public class AddCurrencyController {
     @PreAuthorize("hasAuthority('ADMIN')")
@@ -21,13 +23,18 @@ public class AddCurrencyController {
 
     @Autowired
     CurrencyService currencyService;
+
     @PreAuthorize("hasAuthority('ADMIN')")
     @RequestMapping(value = "/admin/addCurrency", method = RequestMethod.POST)
-    public ModelAndView saveBank(@ModelAttribute("currencyForm") Currency currency) {
-        //TO DO заменить на нормально создание объекта через spring
-        currencyService.save(currency);
+    public ModelAndView saveCurrency(@ModelAttribute("currencyForm") Currency currency) {
         ModelAndView modelAndView = new ModelAndView("addCurrency");
-        modelAndView.addObject("status", "добавление банка прошло успешно");
+        Optional<Currency> optionalCurrency = currencyService.findByCurrencyName(currency.getName());
+        if(!optionalCurrency.isPresent()) {
+            currencyService.save(currency);
+            modelAndView.addObject("status", "добавление валюты прошло успешно");
+        }else {
+            modelAndView.addObject("status", "Добавление валюты провалилось. Валюта с таким названием уже существует");
+        }
         return modelAndView;
     }
 }

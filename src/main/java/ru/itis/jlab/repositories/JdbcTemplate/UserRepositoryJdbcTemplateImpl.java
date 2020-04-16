@@ -1,4 +1,4 @@
-package ru.itis.jlab.repositories;
+package ru.itis.jlab.repositories.JdbcTemplate;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import ru.itis.jlab.model.Role;
 import ru.itis.jlab.model.State;
 import ru.itis.jlab.model.User;
+import ru.itis.jlab.repositories.UserRepository;
 
 import java.sql.PreparedStatement;
 import java.util.List;
@@ -22,10 +23,10 @@ public class UserRepositoryJdbcTemplateImpl implements UserRepository {
     private RowMapper<User> userRowMapper = (row, rowNumber) ->
             User.builder()
                     .id(row.getLong("id"))
-                    .confirmCode(row.getString("code"))
+                    .confirmCode(row.getString("confirm_code"))
                     .login(row.getString("login"))
                     .mail(row.getString("mail"))
-                    .hashPassword(row.getString("password"))
+                    .hashPassword(row.getString("hash_password"))
                     .state(State.valueOf(row.getString("state")))
                     .role(Role.valueOf(row.getString("role")))
                     .build();
@@ -89,7 +90,7 @@ public class UserRepositoryJdbcTemplateImpl implements UserRepository {
 
     //language=sql
     private static final String SQL_INSERT =
-            "INSERT INTO users (login, password, mail, state, code,role) values (?,?,?,?,?,?)";
+            "INSERT INTO users (login, hash_password, mail, state, confirm_code,role) values (?,?,?,?,?,?)";
 
     @Override
     public void save(User entity) {

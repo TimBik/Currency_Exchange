@@ -12,9 +12,11 @@ import javax.persistence.*;
 @Entity
 @Table(name = "edge_currency")
 public class EdgeCurrency {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @ManyToOne
     @JoinColumn(name = "bank_id")
     private Bank bank;
@@ -27,12 +29,21 @@ public class EdgeCurrency {
     @JoinColumn(name = "currency_to_id")
     private Currency CurrencyTo;
 
+    @Column(name = "url_from_data")
     private String urlFromData;
+
+    @Column(name = "parsing_xpath")
     private String parsingXPath;
+
+    private Boolean reverse;
 
     //подумать не может ли привести к микроошибкам
     //поменять на более точный инструмент
-    private double costByOne;
+    @Column(name = "cost_by_one")
+    private Double costByOne;
+
+    @Column(name = "log_cost_by_one")
+    private Double logCostByOne;
 
     public boolean equalsId(EdgeCurrency edgeCurrency) {
         if (edgeCurrency == null) return false;

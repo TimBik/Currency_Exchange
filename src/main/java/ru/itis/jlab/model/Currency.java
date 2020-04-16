@@ -15,11 +15,14 @@ public class Currency {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
     private String name;
+
+    @Column(name = "approximate_cost")
     private double approximateCost;
 
-    @ManyToMany(mappedBy = "currencies")
-    private List<Bank> banks;
+    //@ManyToMany(mappedBy = "currencies")
+    //private List<Bank> banks;
 
     public boolean equalsId(Currency currency) {
         if (currency == null) return false;

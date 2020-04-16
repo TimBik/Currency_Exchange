@@ -1,12 +1,12 @@
 <#ftl encoding="UTF-8"/>
 <#import "base.ftl" as base/>
-<#import "slideHeadMain.ftl" as slideHeadMain/>
-
+<#import "slideHeadAdmin.ftl" as slideHead/>
+<#import "printStatus.ftl" as printStatus/>
 <!DOCTYPE html>
 <@base.head value="addBank"/>
 <body>
 <!--шапка-->
-<@slideHeadMain.slideHead/>
+<@slideHead.slideHead/>
 <hr>
 <!--<div id="pageAdd">-->
 <form method="post" enctype="multipart/form-data" class="container-fluid row jumbotron">
@@ -29,6 +29,7 @@
     </div>
 </form>
 
+<@printStatus.print/>
 <!--</div>-->
 
 <!--футер-->

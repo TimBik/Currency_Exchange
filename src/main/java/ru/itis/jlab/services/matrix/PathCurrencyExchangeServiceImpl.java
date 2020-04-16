@@ -17,8 +17,8 @@ import java.util.Map;
 public class PathCurrencyExchangeServiceImpl implements PathCurrencyExchangeService {
 
     @Autowired
-    @Qualifier("minCostAndPathTables")
-    Pair<Map<Pair<Currency, Currency>, EdgeCurrency>, Map<Pair<Currency, Currency>, Currency>> minCostAndPathTables;
+    @Qualifier("minLogCostAndPathTables")
+    Pair<Map<Pair<Currency, Currency>, EdgeCurrency>, Map<Pair<Currency, Currency>, Currency>> minLogCostAndPathTables;
 
     @Autowired
     @Qualifier("bestCurrencyTable")
@@ -30,7 +30,7 @@ public class PathCurrencyExchangeServiceImpl implements PathCurrencyExchangeServ
     @Override
     public List<EdgeCurrencyWithNamesDto> findBestPath(Currency startCurrency, Currency endCurrency) {
         List<EdgeCurrencyWithNamesDto> ansPath = new ArrayList<>();
-        Map<Pair<Currency, Currency>, Currency> allPath = minCostAndPathTables.getValue();
+        Map<Pair<Currency, Currency>, Currency> allPath = minLogCostAndPathTables.getValue();
         Currency midCurrency = allPath.get(new Pair<>(startCurrency, endCurrency));
         while (!midCurrency.equalsId(startCurrency)) {
             EdgeCurrency edgeCurrency = bestCurrencyTable.get(new Pair<>(midCurrency, endCurrency));
@@ -41,7 +41,7 @@ public class PathCurrencyExchangeServiceImpl implements PathCurrencyExchangeServ
         }
         EdgeCurrency edgeCurrency = bestCurrencyTable.get(new Pair<>(midCurrency, endCurrency));
         EdgeCurrencyWithNamesDto edgeCurrencyWithNamesDto = converter.convertFromEdgeCurrencyToEdgeCurrencyWithNamesDto(edgeCurrency);
-        if (edgeCurrency.getBank().getId() > 0)
+        if (edgeCurrency.getBank() != null && !edgeCurrency.getBank().getName().equals("any bank"))
             ansPath.add(edgeCurrencyWithNamesDto);
         return ansPath;
     }

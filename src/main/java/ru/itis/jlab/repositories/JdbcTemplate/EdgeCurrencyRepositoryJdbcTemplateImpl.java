@@ -1,4 +1,4 @@
-package ru.itis.jlab.repositories;
+package ru.itis.jlab.repositories.JdbcTemplate;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -9,6 +9,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import ru.itis.jlab.model.EdgeCurrency;
+import ru.itis.jlab.repositories.EdgeCurrencyRepository;
 import ru.itis.jlab.services.modelServices.BankService;
 import ru.itis.jlab.services.modelServices.CurrencyService;
 
@@ -31,9 +32,10 @@ public class EdgeCurrencyRepositoryJdbcTemplateImpl implements EdgeCurrencyRepos
             EdgeCurrency.builder()
                     .id(row.getLong("id"))
                     .bank(bankService.find(row.getLong("bank_id")).get())
-                    .CurrencyFrom(currencyService.find(row.getLong("id_currency_from")).get())
-                    .CurrencyTo(currencyService.find(row.getLong("id_currency_to")).get())
+                    .CurrencyFrom(currencyService.find(row.getLong("currency_from_id")).get())
+                    .CurrencyTo(currencyService.find(row.getLong("currency_to_id")).get())
                     .costByOne(row.getDouble("cost_by_one"))
+                    .logCostByOne(row.getDouble("log_cost_by_one"))
                     .urlFromData(row.getString("url_from_data"))
                     .parsingXPath(row.getString("parsing_xpath"))
                     .build();
@@ -59,7 +61,7 @@ public class EdgeCurrencyRepositoryJdbcTemplateImpl implements EdgeCurrencyRepos
         return jdbcTemplate.query(SQL_SELECT_ALL, currencyRowMapper);
     }
 
-    private String SQL_INSERT = "INSERT INTO edge_currency (bank_id,id_currency_from,id_currency_to,url_from_data,parsing_xpath,cost_by_one) values (?,?,?,?,?,?)";
+    private String SQL_INSERT = "INSERT INTO edge_currency (bank_id,currency_from_id,currency_to_id,url_from_data,parsing_xpath,cost_by_one,reverse,log_cost_by_one) values (?,?,?,?,?,?,?,?)";
 
     @Override
     public void save(EdgeCurrency entity) {
@@ -73,6 +75,8 @@ public class EdgeCurrencyRepositoryJdbcTemplateImpl implements EdgeCurrencyRepos
             statement.setString(4, entity.getUrlFromData());
             statement.setString(5, entity.getParsingXPath());
             statement.setDouble(6, entity.getCostByOne());
+            statement.setBoolean(7, entity.getReverse());
+            statement.setDouble(8, entity.getLogCostByOne());
             return statement;
         }, keyHolder);
         //вылетает ошибка, keyHolder = null
@@ -90,7 +94,7 @@ public class EdgeCurrencyRepositoryJdbcTemplateImpl implements EdgeCurrencyRepos
 
     }
 
-    private String SQL_SELECT_BY_BANK_ID_AND_CURRENCY_NAMES = "select * from edge_currency where bank_id=? and id_currency_from=? and id_currency_to=?";
+    private String SQL_SELECT_BY_BANK_ID_AND_CURRENCY_NAMES = "select * from edge_currency where bank_id=? and currency_from_id=?  and currency_to_id=?";
 
     @Override
     public Optional<EdgeCurrency> findByBankIdAndCurrencyNames(long bankId, long idFromCurrency, long idToCurrency) {
@@ -106,18 +110,14 @@ public class EdgeCurrencyRepositoryJdbcTemplateImpl implements EdgeCurrencyRepos
     private String SQL_SELECT_BY_BANK_ID = "select * from edge_currency where bankid=?";
 
     @Override
-    public Optional<List<EdgeCurrency>> findAllByBankId(long bankId) {
-        try {
-            return Optional.ofNullable(jdbcTemplate.query(
-                    SQL_SELECT_BY_BANK_ID,
-                    currencyRowMapper
-            ));
-        } catch (EmptyResultDataAccessException e) {
-            return Optional.empty();
-        }
+    public List<EdgeCurrency> findAllByBankId(long bankId) {
+        return jdbcTemplate.query(
+                SQL_SELECT_BY_BANK_ID,
+                currencyRowMapper
+        );
     }
 
-    private String SQL_SELECT_BY_CURRENCIES_ID = "select * from edge_currency where id_currency_from=? and id_currency_to=?";
+    private String SQL_SELECT_BY_CURRENCIES_ID = "select * from edge_currency where currency_from_id=? and currency_to_id=?";
 
     @Override
     public List<EdgeCurrency> findByCurrenciesId(long idCurrencyFrom, long idCurrencyTo) {

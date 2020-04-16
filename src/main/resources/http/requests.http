@@ -2,14 +2,30 @@ POST http://localhost:8080/signInRestApi
 Content-Type: application/json
 
 {
-  "email" : "timurbikmullin@mail.ru",
+  "email": "timurbikmullin@mail.ru",
   "password": "123"
 }
 
 ###
 
 
-GET http://localhost:8080/usersRestApi
-Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwibG9naW4iOiJUaW0iLCJyb2xlIjoiVVNFUiJ9.OTZbPOLQqR9UEnjVb5YG2kwoShJ9B0Clx8cNDK1eK1s
+POST http://localhost:8080/admin/addBankRestApi
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwibG9naW4iOiJUaW0iLCJyb2xlIjoiQURNSU4iLCJzdGF0ZSI6IkNPTkZJUk1FRCJ9.ReGY1bE4dKpnD3h6v3-0SiClRPskE4vDjK0oIErF3rA
+Content-Type: application/json
+
+{
+  "bankName": "Акибанк"
+}
+
+###
+
+POST http://localhost:8080/admin/addCurrencyRestApi
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwibG9naW4iOiJUaW0iLCJyb2xlIjoiQURNSU4iLCJzdGF0ZSI6IkNPTkZJUk1FRCJ9.ReGY1bE4dKpnD3h6v3-0SiClRPskE4vDjK0oIErF3rA
+Content-Type: application/json
+
+{
+  "name": "китайская йена",
+  "approximateCost": "10"
+}
 
 ###

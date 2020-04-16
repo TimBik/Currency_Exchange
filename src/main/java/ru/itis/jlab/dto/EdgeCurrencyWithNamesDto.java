@@ -18,16 +18,15 @@ import java.util.Optional;
 @NoArgsConstructor
 @Builder
 public class EdgeCurrencyWithNamesDto {
-    private long id;
+    private Long id;
     private String bankName;
     private String nameCurrencyFrom;
     private String nameCurrencyTo;
     private String urlFromData;
     private String parsingXPath;
-
+    private Boolean reverse;
     //подумать не может ли привести к микроошибкам
     //поменять на более точный инструмент
-    private double costByOne;
-
+    private Double costByOne;
 
 }

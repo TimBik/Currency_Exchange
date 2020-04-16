@@ -5,7 +5,7 @@ import ru.itis.jlab.model.EdgeCurrency;
 
 import java.util.List;
 @Service
-public class FindMinCostService {
+public class FindMinLogCostService {
     public EdgeCurrency findMinCostByOne(List<EdgeCurrency> edgeCurrencies) {
         //TO DO: как то обработать пустой лист
         //замечание: такое возможно если
@@ -15,7 +15,7 @@ public class FindMinCostService {
             EdgeCurrency edgeCurrency = edgeCurrencies.get(0);
             for (EdgeCurrency ec :
                     edgeCurrencies) {
-                if (ec.getCostByOne() < edgeCurrency.getCostByOne()) {
+                if (ec.getLogCostByOne() < edgeCurrency.getLogCostByOne()) {
                     edgeCurrency = ec;
                 }
             }

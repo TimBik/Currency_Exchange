@@ -1,12 +1,13 @@
 <#ftl encoding="UTF-8"/>
 <#import "base.ftl" as base/>
-<#import "slideHeadMain.ftl" as slideHeadMain/>
+<#import "slideHeadAdmin.ftl" as slideHead/>
+<#import "printStatus.ftl" as printStatus/>
 
 <!DOCTYPE html>
 <@base.head value="addCurrency"/>
 <body>
 <!--шапка-->
-<@slideHeadMain.slideHead/>
+<@slideHead.slideHead/>
 <hr>
 <!--<div id="pageAdd">-->
 <form method="post" enctype="multipart/form-data" class="container-fluid row jumbotron" modelAttribute="currencyForm">
@@ -28,6 +29,8 @@
         <input class="btn5 btn-primary btn-lg" type="submit" name="saveNewCurrency" value="Сохранить"/>
     </div>
 </form>
+
+<@printStatus.print/>
 
 <!--</div>-->
 

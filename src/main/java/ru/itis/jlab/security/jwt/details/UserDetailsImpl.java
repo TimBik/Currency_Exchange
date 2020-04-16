@@ -4,6 +4,8 @@ import lombok.Builder;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Component;
+import ru.itis.jlab.model.State;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -13,6 +15,7 @@ public class UserDetailsImpl implements UserDetails {
 
     private Long userId;
     private String role;
+    private String state;
     private String login;
 
     @Override
@@ -48,7 +51,7 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return state.equals(State.CONFIRMED);
     }
 
     public Long getUserId() {

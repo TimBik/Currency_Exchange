@@ -8,7 +8,7 @@ import java.util.Optional;
 public interface EdgeCurrencyRepository extends CrudRepository<Long, EdgeCurrency> {
     Optional<EdgeCurrency> findByBankIdAndCurrencyNames(long bankId, long idFromCurrency, long idToCurrency);
 
-    Optional<List<EdgeCurrency>> findAllByBankId(long bankId);
+    List<EdgeCurrency> findAllByBankId(long bankId);
 
     List<EdgeCurrency> findByCurrenciesId(long idCurrencyFrom, long idCurrencyTo);
 }

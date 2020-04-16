@@ -1,4 +1,4 @@
-package ru.itis.jlab.repositories;
+package ru.itis.jlab.repositories.JdbcTemplate;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -10,6 +10,7 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import ru.itis.jlab.model.Bank;
 import ru.itis.jlab.model.Currency;
+import ru.itis.jlab.repositories.CurrencyRepository;
 
 import java.sql.PreparedStatement;
 import java.util.List;
@@ -79,7 +80,7 @@ public class CurrencyRepositoryJdbcTemplateImpl implements CurrencyRepository {
     @Override
     public Optional<Currency> findByName(String nameCurrency) {
         try {
-            Currency currency = (Currency) jdbcTemplate.queryForObject(SQL_SELECT_BY_CURRENCY_NAME, new Object[]{nameCurrency}, currencyRowMapper);
+            Currency currency = jdbcTemplate.queryForObject(SQL_SELECT_BY_CURRENCY_NAME, new Object[]{nameCurrency}, currencyRowMapper);
             return Optional.of(currency);
         } catch (
                 EmptyResultDataAccessException e) {

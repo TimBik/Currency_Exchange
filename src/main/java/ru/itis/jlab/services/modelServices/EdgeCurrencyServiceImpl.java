@@ -31,6 +31,7 @@ public class EdgeCurrencyServiceImpl implements EdgeCurrencyService {
         if (optionalCostByOne.isPresent()) {
             Double cost = optionalCostByOne.get();
             edgeCurrency.setCostByOne(cost);
+            edgeCurrency.setLogCostByOne(-Math.log(cost));
             matrixService.updateMatrix(edgeCurrency, cost);
             edgeCurrencyRepository.save(edgeCurrency);
         } else {

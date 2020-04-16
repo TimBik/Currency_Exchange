@@ -1,12 +1,13 @@
 <#ftl encoding="UTF-8"/>
 <#import "base.ftl" as base/>
-<#import "slideHeadMain.ftl" as slideHeadMain/>
+<#import "slideHeadAdmin.ftl" as slideHead/>
+<#import "printStatus.ftl" as printStatus/>
 
 <!DOCTYPE html>
 <@base.head value="addEdgeCurrency"/>
 <body>
 <!--шапка-->
-<@slideHeadMain.slideHead/>
+<@slideHead.slideHead/>
 <hr>
 <!--<div id="pageAdd">-->
 <form method="post" enctype="multipart/form-data" class="container-fluid row jumbotron">
@@ -22,6 +23,7 @@
                 <input type="text" name="bankName" placeholder="какой банк предоставляет" required>
                 <input type="text" name="urlFromData" placeholder="ссылка для парсинга" required>
                 <input type="text" name="parsingXPath" placeholder="введите XPath" required>
+                <input type="checkbox" name="reverse" placeholder="reverse">
                 <td>
             </label>
 
@@ -31,6 +33,8 @@
         <input class="btn5 btn-primary btn-lg" type="submit" name="saveNewCurrency" value="Сохранить"/>
     </div>
 </form>
+
+<@printStatus.print/>
 
 <!--</div>-->
 

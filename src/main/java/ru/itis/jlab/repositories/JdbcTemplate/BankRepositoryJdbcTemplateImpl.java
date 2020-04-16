@@ -1,4 +1,4 @@
-package ru.itis.jlab.repositories;
+package ru.itis.jlab.repositories.JdbcTemplate;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -8,6 +8,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import ru.itis.jlab.model.Bank;
+import ru.itis.jlab.repositories.BankRepository;
 
 import java.sql.PreparedStatement;
 import java.util.List;

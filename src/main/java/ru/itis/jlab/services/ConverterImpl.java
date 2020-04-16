@@ -17,13 +17,15 @@ public class ConverterImpl implements Converter {
     public EdgeCurrencyWithNamesDto convertFromEdgeCurrencyToEdgeCurrencyWithNamesDto(EdgeCurrency edgeCurrency) {
         EdgeCurrencyWithNamesDto edgeCurrencyWithNamesDto = new EdgeCurrencyWithNamesDto();
         edgeCurrencyWithNamesDto.setId(edgeCurrency.getId());
-        if (edgeCurrency.getBank().getId() > 0) {
-            Optional<Bank> optionalBank = Optional.ofNullable(edgeCurrency.getBank());
-            if (optionalBank.isPresent()) {
-                edgeCurrencyWithNamesDto.setBankName(optionalBank.get().getName());
+        if (edgeCurrency.getBank() != null) {
+            if (!edgeCurrency.getBank().getName().equals("any bank")) {
+                Optional<Bank> optionalBank = Optional.ofNullable(edgeCurrency.getBank());
+                if (optionalBank.isPresent()) {
+                    edgeCurrencyWithNamesDto.setBankName(optionalBank.get().getName());
+                }
+            } else {
+                edgeCurrencyWithNamesDto.setBankName("любое отделение банков");
             }
-        } else if (edgeCurrency.getBank().getId() == -1) {
-            edgeCurrencyWithNamesDto.setBankName("любое отделение банков");
         }
         if (edgeCurrency.getCurrencyTo().getId() > 0 && edgeCurrency.getCurrencyFrom().getId() > 0) {
             Optional<Currency> currencyFrom = Optional.ofNullable(edgeCurrency.getCurrencyFrom());

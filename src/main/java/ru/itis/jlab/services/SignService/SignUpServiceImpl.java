@@ -20,10 +20,13 @@ public class SignUpServiceImpl implements SignUpService {
 
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
+
     @Autowired
     private MailService mailService;
+
     @Autowired
     private UserRepository usersRepository;
+
     @Autowired
     private PrepareMailModelService prepareMailModelService;
 

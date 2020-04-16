@@ -12,7 +12,7 @@ import java.util.Optional;
 @Service
 public class BestEdgeCurrenciesService {
     @Autowired
-    FindMinCostService findMinCostService;
+    FindMinLogCostService findMinCostService;
     @Autowired
     EdgeCurrencyRepository edgeCurrencyRepository;
 

@@ -25,8 +25,7 @@ public class ParsingCurrencyService {
     @Autowired
     BankRepository bankRepository;
 
-    @Async
-    @Scheduled(fixedDelay = 1000 * 60 * 60)
+    @Scheduled(fixedDelay = 1000)
     public void parsingBanksSite() {
         List<Bank> banks = bankRepository.findAll();
         for (Bank bank : banks) {
@@ -38,7 +37,7 @@ public class ParsingCurrencyService {
     MatrixService matrixService;
 
     public void parsingCurrencyFromBank(Bank bank) {
-        List<EdgeCurrency> currencies = edgeCurrencyRepository.findAllByBankId(bank.getId()).get();
+        List<EdgeCurrency> currencies = edgeCurrencyRepository.findAllByBankId(bank.getId());
         for (EdgeCurrency edgeCurrency : currencies) {
             Optional<Double> optionalNewCostByOne = findCurrencyCostByOneByEdgeCurrency(edgeCurrency);
             if (optionalNewCostByOne.isPresent()) {
@@ -53,7 +52,16 @@ public class ParsingCurrencyService {
     public Optional<Double> findCurrencyCostByOneByEdgeCurrency(EdgeCurrency edgeCurrency) {
         String url = edgeCurrency.getUrlFromData();
         String xPath = edgeCurrency.getParsingXPath();
-        return findCurrencyCostByOne(url, xPath);
+        Optional<Double> optionalCostByOne = findCurrencyCostByOne(url, xPath);
+        if (optionalCostByOne.isPresent()) {
+            double costByOne = optionalCostByOne.get();
+            if (edgeCurrency.getReverse()) {
+                costByOne = 1. / costByOne;
+            }
+            return Optional.of(costByOne);
+        } else {
+            return Optional.empty();
+        }
     }
 
     @Autowired
