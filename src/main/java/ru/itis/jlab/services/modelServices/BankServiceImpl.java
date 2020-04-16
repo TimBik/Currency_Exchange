@@ -3,6 +3,7 @@ package ru.itis.jlab.services.modelServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.itis.jlab.model.Bank;
+import ru.itis.jlab.model.EdgeCurrency;
 import ru.itis.jlab.repositories.BankRepository;
 
 import java.util.List;
@@ -34,4 +35,5 @@ public class BankServiceImpl implements BankService {
     public List<Bank> findAll() {
         return bankRepository.findAll();
     }
+
 }

@@ -107,12 +107,13 @@ public class EdgeCurrencyRepositoryJdbcTemplateImpl implements EdgeCurrencyRepos
         }
     }
 
-    private String SQL_SELECT_BY_BANK_ID = "select * from edge_currency where bankid=?";
+    private String SQL_SELECT_BY_BANK_ID = "select * from edge_currency where bank_id=?";
 
     @Override
     public List<EdgeCurrency> findAllByBankId(long bankId) {
         return jdbcTemplate.query(
                 SQL_SELECT_BY_BANK_ID,
+                new Object[]{bankId},
                 currencyRowMapper
         );
     }

@@ -23,6 +23,10 @@ import org.springframework.ui.freemarker.FreeMarkerConfigurationFactoryBean;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver;
+import ru.itis.jlab.repositories.BankRepository;
+import ru.itis.jlab.repositories.JdbcTemplate.BankRepositoryJdbcTemplateImpl;
+import ru.itis.jlab.services.banks_site_parsing.ParsingCurrencyService;
+import ru.itis.jlab.services.banks_site_parsing.ParsingCurrencyServiceImpl;
 
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
@@ -170,5 +174,12 @@ public class ApplicationContextConfig {
         return properties;
     }
 
+
+    @Bean
+    public ParsingCurrencyService parsingCurrency() {
+        ParsingCurrencyService parsingCurrencyService = new ParsingCurrencyServiceImpl();
+//        parsingCurrencyService.parsingBanksSite();
+        return parsingCurrencyService;
+    }
 
 }

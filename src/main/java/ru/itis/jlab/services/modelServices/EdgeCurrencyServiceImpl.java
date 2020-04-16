@@ -4,9 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.itis.jlab.model.EdgeCurrency;
 import ru.itis.jlab.repositories.EdgeCurrencyRepository;
-import ru.itis.jlab.services.matrix.MatrixService;
+import ru.itis.jlab.services.banks_site_parsing.FindCurrencyCostService;
 import ru.itis.jlab.services.banks_site_parsing.ParsingCurrencyService;
+import ru.itis.jlab.services.matrix.MatrixService;
+import ru.itis.jlab.services.banks_site_parsing.ParsingCurrencyServiceImpl;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -19,25 +22,20 @@ public class EdgeCurrencyServiceImpl implements EdgeCurrencyService {
         return edgeCurrencyRepository.find(id);
     }
 
-    @Autowired
-    ParsingCurrencyService parsingCurrencyService;
-
-    @Autowired
-    MatrixService matrixService;
 
     @Override
     public void save(EdgeCurrency edgeCurrency) {
-        Optional<Double> optionalCostByOne = parsingCurrencyService.findCurrencyCostByOneByEdgeCurrency(edgeCurrency);
-        if (optionalCostByOne.isPresent()) {
-            Double cost = optionalCostByOne.get();
-            edgeCurrency.setCostByOne(cost);
-            edgeCurrency.setLogCostByOne(-Math.log(cost));
-            matrixService.updateMatrix(edgeCurrency, cost);
-            edgeCurrencyRepository.save(edgeCurrency);
-        } else {
-            throw new IllegalArgumentException("Невозможно правивльно узнать новую стоимость валюты. Проверьте prefix, suffix и url новой валюты по url - " + edgeCurrency.getUrlFromData());
-        }
+        edgeCurrencyRepository.save(edgeCurrency);
     }
 
+    @Override
+    public List<EdgeCurrency> findAllByBankId(Long id) {
+        return edgeCurrencyRepository.findAllByBankId(id);
+    }
+
+    @Override
+    public List<EdgeCurrency> findByCurrenciesId(long id, long id1) {
+        return edgeCurrencyRepository.findByCurrenciesId(id, id1);
+    }
 
 }

@@ -11,6 +11,7 @@ import ru.itis.jlab.model.Currency;
 import ru.itis.jlab.model.EdgeCurrency;
 import ru.itis.jlab.repositories.CurrencyRepository;
 import ru.itis.jlab.services.matrix.MinLogCostAndPathTablesService;
+import ru.itis.jlab.services.modelServices.CurrencyService;
 
 import java.util.HashMap;
 import java.util.List;
@@ -20,17 +21,17 @@ import java.util.Map;
 @PropertySource("classpath:properties/application.properties")
 @ComponentScan(basePackages = "ru.itis.jlab")
 public class MinCostAndPathMatrixConfig {
+
     @Autowired
     @Qualifier("bestCurrencyTable")
     private Map<Pair<Currency, Currency>, EdgeCurrency> bestCurrencyTable;
 
 
     @Autowired
-    CurrencyRepository currencyRepository;
+    CurrencyService currencyService;
 
     @Autowired
     MinLogCostAndPathTablesService minLogCostAndPathTablesService;
-
 
     @Bean(name = "minLogCostAndPathTables")
     public Pair
@@ -43,10 +44,11 @@ public class MinCostAndPathMatrixConfig {
             minCostTable.put(key, bestCurrencyTable.get(key));
             pathMinCostTable.put(key, key.getKey());
         }
-        List<Currency> currencyList = currencyRepository.findAll();
+        List<Currency> currencyList = currencyService.findAll();
         for (Currency currency : currencyList) {
             minLogCostAndPathTablesService.updateMinCostAndPathTablesWithUsedK(currency, minCostTable, pathMinCostTable);
         }
+
         return new Pair<>(minCostTable, pathMinCostTable);
     }
 }

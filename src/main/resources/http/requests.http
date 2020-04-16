@@ -14,7 +14,7 @@ Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwibG9naW4iOiJUaW0iLCJyb2xlIjoi
 Content-Type: application/json
 
 {
-  "bankName": "Акибанк"
+  "name": "Тинькофф"
 }
 
 ###
