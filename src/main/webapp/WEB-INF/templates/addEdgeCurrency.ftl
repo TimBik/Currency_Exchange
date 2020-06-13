@@ -24,6 +24,7 @@
                 <input type="text" name="urlFromData" placeholder="ссылка для парсинга" required>
                 <input type="text" name="parsingXPath" placeholder="введите XPath" required>
                 <input type="checkbox" name="reverse" placeholder="reverse">
+<#--                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">-->
                 <td>
             </label>
 

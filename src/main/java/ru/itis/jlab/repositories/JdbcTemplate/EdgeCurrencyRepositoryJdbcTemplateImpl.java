@@ -37,6 +37,7 @@ public class EdgeCurrencyRepositoryJdbcTemplateImpl implements EdgeCurrencyRepos
                     .costByOne(row.getDouble("cost_by_one"))
                     .logCostByOne(row.getDouble("log_cost_by_one"))
                     .urlFromData(row.getString("url_from_data"))
+                    .reverse(row.getBoolean("reverse"))
                     .parsingXPath(row.getString("parsing_xpath"))
                     .build();
 

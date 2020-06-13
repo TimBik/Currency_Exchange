@@ -19,7 +19,9 @@
             <label class="pageAddLabel">
                 <span class="pageAddTitle">Атрибуты:</span>
                 <input type="text" name="name" placeholder="название валюты" required>
-                <input type="number" step="any" name="approximateCost" placeholder="средняя ценя за 1 относительно рубля" required>
+                <input type="number" step="any" name="approximateCost"
+                       placeholder="средняя ценя за 1 относительно рубля" required>
+<#--                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">-->
                 <td>
             </label>
 

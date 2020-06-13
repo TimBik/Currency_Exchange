@@ -9,6 +9,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+import ru.itis.jlab.model.Role;
+import ru.itis.jlab.model.State;
+import ru.itis.jlab.model.User;
 import ru.itis.jlab.security.jwt.authentication.JwtAuthentication;
 import ru.itis.jlab.security.jwt.details.UserDetailsImpl;
 
@@ -23,24 +26,33 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         String token = authentication.getName();
+        UserDetails userDetails;
+        User user;
+        if (token != null) {
+            Claims claims;
+            try {
+                // выполняю парсинг токена со своим секретным ключом
+                claims = Jwts.parser().setSigningKey(secret).parseClaimsJws(token)
+                        .getBody();
+            } catch (Exception e) {
+                throw new AuthenticationCredentialsNotFoundException("Bad token");
+            }
+            // создаем UserDetails
+            user = User.builder()
+                    .id(Long.parseLong(claims.get("sub", String.class)))
+                    .role(Role.valueOf(claims.get("role", String.class)))
+                    .login(claims.get("login", String.class))
+                    .state(State.valueOf(claims.get("state", String.class)))
+                    .build();
 
-        Claims claims;
-        try {
-            // выполняю парсинг токена со своим секретным ключом
-            claims = Jwts.parser().setSigningKey(secret).parseClaimsJws(token)
-                    .getBody();
-        } catch (Exception e) {
-            throw new AuthenticationCredentialsNotFoundException("Bad token");
+        } else {
+            user = User.builder().role(Role.ANONIM).build();
         }
-        // создаем UserDetails
-        UserDetails userDetails = UserDetailsImpl.builder()
-                .userId(Long.parseLong(claims.get("sub", String.class)))
-                .role(claims.get("role", String.class))
-                .login(claims.get("login", String.class))
-                .state(claims.get("state", String.class))
-                .build();
+        userDetails = new UserDetailsImpl(user);
+
+
 //        // аутентификация прошла успешно
-//        authentication.setAuthenticated(true);
+        authentication.setAuthenticated(true);
         // положили в эту аутентификацию пользователя
         ((JwtAuthentication) authentication).setUserDetails(userDetails);
         return authentication;

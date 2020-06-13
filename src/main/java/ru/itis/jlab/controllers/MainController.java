@@ -24,8 +24,7 @@ public class MainController {
     @Autowired
     BankService bankService;
 
-    //    @PreAuthorize("isAuthenticated()")
-    @PreAuthorize("permitAll()")
+    @PreAuthorize("hasAnyAuthority('ADMIN','USER')")
     @RequestMapping(value = "/main", method = RequestMethod.GET)
     public ModelAndView main() {
         ModelAndView modelAndView = new ModelAndView("main");

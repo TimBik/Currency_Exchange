@@ -19,7 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 @Controller
 public class SignInController {
 
-    @RequestMapping(value = "signIn", method = RequestMethod.GET)
+    @RequestMapping(value = "/signIn", method = RequestMethod.GET)
     public ModelAndView signIn() {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("signIn");
@@ -29,12 +29,12 @@ public class SignInController {
     @Autowired
     SignInService signInService;
 
-    @RequestMapping(value = "signIn", method = RequestMethod.POST)
+    @RequestMapping(value = "/signIn", method = RequestMethod.POST)
     public ModelAndView signIn(HttpServletResponse response,
                                @RequestParam(value = "email") String mail,
                                @RequestParam(value = "password") String password) {
         TokenDto tokenDto = signInService.signIn(SignInDto.builder().email(mail).password(password).build());
-        Cookie cookie = new Cookie("token", tokenDto.getToken());
+        Cookie cookie = new Cookie("myToken", tokenDto.getToken());
         response.addCookie(cookie);
         ModelAndView modelAndView = new ModelAndView("redirect:/main");
         return modelAndView;

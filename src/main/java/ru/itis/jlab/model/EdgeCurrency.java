@@ -1,6 +1,5 @@
 package ru.itis.jlab.model;
 
-import com.sun.tracing.dtrace.ArgsAttributes;
 import lombok.*;
 
 import javax.persistence.*;
@@ -34,6 +33,7 @@ public class EdgeCurrency {
 
     @Column(name = "parsing_xpath")
     private String parsingXPath;
+
 
     private Boolean reverse;
 

@@ -66,7 +66,7 @@ public class AddEdgeCurrencyRestApiController {
                 edgeCurrency.setCostByOne(cost);
                 edgeCurrency.setLogCostByOne(-Math.log(cost));
                 edgeCurrencyService.save(edgeCurrency);
-                matrixService.updateMatrix(edgeCurrency, cost);
+                matrixService.updateMatrix(edgeCurrency);
                 status = "добавление ребра валют прошло успешно";
             } else {
                 status = "Невозможно правивльно узнать новую стоимость валюты. Проверьте xpath новой валюты по url - " + edgeCurrencyWithNamesDto.getUrlFromData();

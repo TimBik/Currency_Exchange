@@ -23,6 +23,7 @@
             </label>
 
         </div>
+<#--        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">-->
     </div>
     <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-2">
         <input class="btn5 btn-primary btn-lg" type="submit" name="saveNewRecipe" value="Сохранить"/>

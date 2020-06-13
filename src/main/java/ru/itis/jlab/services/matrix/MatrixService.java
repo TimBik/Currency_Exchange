@@ -7,6 +7,6 @@ import ru.itis.jlab.model.EdgeCurrency;
 import java.util.Map;
 
 public interface MatrixService {
-    void updateMatrix(EdgeCurrency edgeCurrency, Double newCost);
+    void updateMatrix(EdgeCurrency edgeCurrency);
 
 }

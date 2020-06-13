@@ -34,15 +34,17 @@ public class MessagesRestApiController {
             messagesFromBank.put(message.getPageId(), new ArrayList(messageService.findAllByBankName(message.getBankName())));
         }
         // полученное сообщение добавляем для всех открытых страниц нашего приложения
-        for (List<MessageDto> pageMessages : messagesFromBank.values()) {
-            // перед тем как положить сообщение для какой-либо страницы
-            // мы список сообщений блокируем
-            synchronized (pageMessages) {
-                // добавляем сообщение
-                pageMessages.add(message);
-                messageService.save(message);
-                // говорим, что другие потоки могут воспользоваться этим списком
-                pageMessages.notifyAll();
+        if (!message.getText().equals("Login")) {
+            messageService.save(message);
+            for (List<MessageDto> pageMessages : messagesFromBank.values()) {
+                // перед тем как положить сообщение для какой-либо страницы
+                // мы список сообщений блокируем
+                synchronized (pageMessages) {
+                    // добавляем сообщение
+                    pageMessages.add(message);
+                    // говорим, что другие потоки могут воспользоваться этим списком
+                    pageMessages.notifyAll();
+                }
             }
         }
         return ResponseEntity.ok().build();

@@ -19,7 +19,7 @@ import ru.itis.jlab.services.modelServices.EdgeCurrencyService;
 import java.util.List;
 import java.util.Optional;
 
-
+@Service
 public class ParsingCurrencyServiceImpl implements ParsingCurrencyService {
 
     @Autowired
@@ -49,7 +49,9 @@ public class ParsingCurrencyServiceImpl implements ParsingCurrencyService {
             Optional<Double> optionalNewCostByOne = findCurrencyCostService.findCurrencyCostByOneByEdgeCurrency(edgeCurrency);
             if (optionalNewCostByOne.isPresent()) {
                 Double newCostByOne = optionalNewCostByOne.get();
-                matrixService.updateMatrix(edgeCurrency, newCostByOne);
+                edgeCurrency.setCostByOne(newCostByOne);
+                edgeCurrency.setLogCostByOne(-Math.log(newCostByOne));
+                matrixService.updateMatrix(edgeCurrency);
             } else {
                 throw new IllegalArgumentException("Невозможно правивльно узнать новую стоимость валюты. Проверьте XPath и url валюты c id - " + edgeCurrency.getId());
             }

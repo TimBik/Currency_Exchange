@@ -10,11 +10,12 @@
 <@slideHeadMain.slideHead/>
 
 <!--поиск-->
-<form method="post" class="d1">
+<form action="/finder" method="post" class="d1">
     <input type="text" name="currencyFrom" placeholder="из валюты">
     <input type="text" name="currencyTo" placeholder="в валюту">
+<#--    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">-->
 
-    <button input type="submit"></button>
+    <button type="submit"></button>
 </form>
 
 <#if edgeCurrencyList??>

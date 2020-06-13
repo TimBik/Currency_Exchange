@@ -23,6 +23,7 @@ public class AddBankController {
 
     @Autowired
     BankService bankService;
+
     @PreAuthorize("hasAuthority('ADMIN')")
     @RequestMapping(value = "/admin/addBank", method = RequestMethod.POST)
     public ModelAndView saveBank(@ModelAttribute(value = "nameBank") String bankName) {

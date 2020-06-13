@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Queue;
 
-//@Component
+
 public class CurrencyRepositoryJpaImpl implements CurrencyRepository {
 
     @PersistenceContext

@@ -44,7 +44,6 @@ public class MatrixConfig {
                     if (edgeCurrency.isPresent()) {
                         matrix.put(new Pair<>(currency1, currency2), edgeCurrency.get());
                     } else {
-                        //TO DO придумать что делать если нет обмена таких валют
                         matrix.put(new Pair<>(currency1, currency2), fixEdgeCurrency(currency1, currency2));
                     }
                 }

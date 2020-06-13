@@ -12,7 +12,7 @@ import javax.persistence.PersistenceContext;
 import java.util.*;
 
 
-//@Component
+
 public class BankRepositoryJpaImpl implements BankRepository {
     @PersistenceContext
     private EntityManager entityManager;

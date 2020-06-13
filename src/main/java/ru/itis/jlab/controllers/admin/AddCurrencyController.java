@@ -14,6 +14,7 @@ import java.util.Optional;
 
 @Controller
 public class AddCurrencyController {
+
     @PreAuthorize("hasAuthority('ADMIN')")
     @RequestMapping(value = "/admin/addCurrency", method = RequestMethod.GET)
     public ModelAndView addCurrency() {

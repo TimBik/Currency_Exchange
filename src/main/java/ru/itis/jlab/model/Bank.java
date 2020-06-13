@@ -15,16 +15,16 @@ import java.util.List;
 public class Bank {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    private Long id;
 
-    String name;
+    private String name;
 
-    // @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//    @JoinTable(name = "section_scope",
-//            joinColumns = @JoinColumn(name = "bank_id"),
-//            inverseJoinColumns = @JoinColumn(name = "currency_id")
-//    )
-    //List<Currency> currencies;
+     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(name = "currencies",
+            joinColumns = @JoinColumn(name = "bank_id"),
+            inverseJoinColumns = @JoinColumn(name = "currency_id")
+    )
+     private List<Currency> currencies;
 
 
 }

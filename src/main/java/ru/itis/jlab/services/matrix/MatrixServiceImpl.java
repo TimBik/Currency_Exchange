@@ -29,13 +29,13 @@ public class MatrixServiceImpl implements MatrixService {
     CurrencyService currencyService;
 
     @Override
-    public void updateMatrix(EdgeCurrency edgeCurrency, Double newCost) {
+    public void updateMatrix(EdgeCurrency edgeCurrency) {
         Optional<Currency> currencyFrom = Optional.ofNullable(edgeCurrency.getCurrencyFrom());
         Optional<Currency> currencyTo = Optional.ofNullable(edgeCurrency.getCurrencyTo());
         if (currencyFrom.isPresent() && currencyTo.isPresent()) {
             Pair<Currency, Currency> key = new Pair(currencyFrom.get(), currencyTo.get());
             EdgeCurrency edgeCurrency1 = bestCurrencyTable.get(key);
-            if (edgeCurrency1 ==null || newCost < edgeCurrency1.getLogCostByOne()) {
+            if (edgeCurrency1 ==null || edgeCurrency1.getCostByOne() < 0 || edgeCurrency.getCostByOne() < edgeCurrency1.getCostByOne()) {
                 bestCurrencyTable.put(key, edgeCurrency);
 
                 //работает за O(n^2), где n - кол-во валют

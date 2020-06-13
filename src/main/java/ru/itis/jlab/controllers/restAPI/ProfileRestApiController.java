@@ -21,7 +21,7 @@ public class ProfileRestApiController {
         System.out.println(userDetails);
         return ResponseEntity.ok(UserDto.builder()
                 .login(userDetails.getUsername())
-                .id(userDetails.getUserId())
+                .id(userDetails.getUser().getId())
                 .build());
     }
 }

@@ -1,11 +1,13 @@
 package ru.itis.jlab.security.jwt.details;
 
 import lombok.Builder;
+import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import ru.itis.jlab.model.State;
+import ru.itis.jlab.model.User;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -13,25 +15,34 @@ import java.util.Collections;
 @Builder
 public class UserDetailsImpl implements UserDetails {
 
-    private Long userId;
-    private String role;
-    private String state;
-    private String login;
+    private User user;
+
+    public UserDetailsImpl(User user) {
+        this.user = user;
+    }
+
+    public UserDetailsImpl() {
+    }
+
+    public User getUser() {
+        return user;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        SimpleGrantedAuthority authority = new SimpleGrantedAuthority(role);
-        return Collections.singletonList(authority);
+        String authority = user.getRole().toString();
+        SimpleGrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority(authority);
+        return Collections.singleton(simpleGrantedAuthority);
     }
 
     @Override
     public String getPassword() {
-        return null;
+        return user.getHashPassword();
     }
 
     @Override
     public String getUsername() {
-        return this.login;
+        return user.getMail();
     }
 
     @Override
@@ -51,10 +62,6 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return state.equals(State.CONFIRMED);
-    }
-
-    public Long getUserId() {
-        return userId;
+        return user.getState().equals(State.CONFIRMED);
     }
 }

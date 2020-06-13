@@ -5,6 +5,7 @@ import com.zaxxer.hikari.HikariDataSource;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.phantomjs.PhantomJSDriver;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.*;
 import org.springframework.core.env.Environment;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -61,20 +62,11 @@ public class ApplicationContextConfig {
         return config;
     }
 
-    @Bean
+    @Bean(name = "hikariDataSource")
     public DataSource hikariDataSource() {
         return new HikariDataSource(hikariConfig());
     }
 
-    @Bean
-    public DataSource driverManagerDataSource() {
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName(environment.getProperty("db.driver"));
-        dataSource.setUrl(environment.getProperty("db.url"));
-        dataSource.setUsername(environment.getProperty("db.user"));
-        dataSource.setPassword(environment.getProperty("db.password"));
-        return dataSource;
-    }
 
     @Bean
     public WebDriver getWebDriver() {
@@ -174,12 +166,12 @@ public class ApplicationContextConfig {
         return properties;
     }
 
+    @Autowired
+    ParsingCurrencyService parsingCurrencyService;
 
     @Bean
-    public ParsingCurrencyService parsingCurrency() {
-        ParsingCurrencyService parsingCurrencyService = new ParsingCurrencyServiceImpl();
-//        parsingCurrencyService.parsingBanksSite();
-        return parsingCurrencyService;
+    public void ParsingSite() {
+        parsingCurrencyService.parsingBanksSite();
     }
 
 }
